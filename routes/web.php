@@ -43,12 +43,12 @@ Route::get('product/{catid?}', function ($catid = null) {
     if ($catid) {
         $result = Product::where('category_id', $catid)->get();
     } else {
-        $result = Product::all();
+        $result = Product::paginate(3);
     }
     return view('product', ['products' => $result]);
 });
 
-Route::get('/addProduct', [ProductController::class, 'addProduct']);
+Route::get('/addProduct', [ProductController::class, 'addProduct'])->middleware('auth');
 Route::get('/reviews', [FirstController::class, 'reviews']);
 Route::get('/editProduct/{product}', [ProductController::class, 'editProduct']);
 Route::put('/updateProduct/{product}', [ProductController::class, 'updateProduct']);
