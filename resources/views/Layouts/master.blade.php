@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <!-- responsive -->
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
+    @yield('styles')
 
     <style>
         .subtitle {
@@ -82,26 +84,25 @@
 
                                 @guest
                                     @if (Route::has('login'))
-                                        <li >
-                                            <a  href="{{ route('login') }}">{{ __('Login') }}</a>
+                                        <li>
+                                            <a href="{{ route('login') }}">{{ __('Login') }}</a>
                                         </li>
                                     @endif
 
                                     @if (Route::has('register'))
-                                        <li >
-                                            <a  href="{{ route('register') }}">{{ __('Register') }}</a>
+                                        <li>
+                                            <a href="{{ route('register') }}">{{ __('Register') }}</a>
                                         </li>
                                     @endif
                                 @else
-                                    <li >
-                                        <a id="navbarDropdown"  href="#"
-                                            role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false" v-pre>
+                                    <li>
+                                        <a id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false" v-pre>
                                             {{ Auth::user()->name }}
                                         </a>
 
                                         <div aria-labelledby="navbarDropdown">
-                                            <a  href="{{ route('logout') }}"
+                                            <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault()
                                                     document.getElementById('logout-form').submit();">
                                                 {{ __('Logout') }}
@@ -229,7 +230,17 @@
 
 
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
     @yield('content')
 
@@ -254,7 +265,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-box about-widget">
                         <h2 class="widget-title">About us</h2>
-                        <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                        <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem
+                            accusantium
                             doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
                     </div>
                 </div>
@@ -341,6 +353,7 @@
     <script src="{{ asset('assets/js/sticker.js') }}"></script>
     <!-- main js -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    @yield('scripts')
 
 </body>
 

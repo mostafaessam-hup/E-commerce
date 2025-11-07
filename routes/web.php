@@ -50,9 +50,11 @@ Route::get('product/{catid?}', function ($catid = null) {
 
 Route::get('/addProduct', [ProductController::class, 'addProduct'])->middleware('auth');
 Route::get('/reviews', [FirstController::class, 'reviews']);
-Route::get('/editProduct/{product}', [ProductController::class, 'editProduct']);
-Route::put('/updateProduct/{product}', [ProductController::class, 'updateProduct']);
-Route::delete('/product/{product}', [ProductController::class, 'removeProduct'])->name('product.remove');
-Route::post('/storeProduct', [ProductController::class, 'storeProduct']);
+Route::get('/editProduct/{product}', [ProductController::class, 'editProduct'])->middleware('auth');
+Route::put('/updateProduct/{product}', [ProductController::class, 'updateProduct'])->middleware('auth');
+Route::delete('/product/{product}', [ProductController::class, 'removeProduct'])->name('product.remove')->middleware('auth');
+Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->middleware('auth');
+
+Route::get('/productsTable', [ProductController::class, 'productsTable']);
 
 Route::post('/search', [FirstController::class, 'search']);

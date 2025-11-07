@@ -26,6 +26,12 @@ class ProductController extends Controller
         );
     }
 
+    public function productsTable()
+    {
+        $products = Product::all();
+        return view('Products.productsTable', ['products' => $products]);
+    }
+
     public function updateProduct(Product $product, Request $request)
     {
         $request->validate(
@@ -57,13 +63,13 @@ class ProductController extends Controller
         }
 
         $product->save();
-        return redirect('product')->with('success', 'Product updated successfully.');
+        return redirect($request->previous_url ?? 'product')->with('success', 'Product updated successfully.');
     }
 
     public function removeProduct(Product $product)
     {
         $product->delete();
-        return redirect('product')->with('success', 'Product deleted successfully.');
+        return back()->with('success', 'Product deleted successfully.');
     }
 
 

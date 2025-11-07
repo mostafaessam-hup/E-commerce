@@ -12,18 +12,7 @@
                 </div>
             </div>
 
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
             <div class="row">
-
-                @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
                 @foreach ($products as $product)
                     <div class="col-lg-4 col-md-6 text-center">
                         <div class="single-product-item" style="width: 300px; height: 420px; margin: auto;">

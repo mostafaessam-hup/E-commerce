@@ -38,6 +38,8 @@
                         </div>
                     @endif
 
+                    <input type="hidden" name="previous_url" value="{{ url()->previous() }}">
+
                     <p>
                         <input type="text" placeholder={{ $product->name }} name="name" id="name"
                             style="width: 100%" value ="{{ $product->name }}">
