@@ -57,4 +57,7 @@ Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->middle
 
 Route::get('/productsTable', [ProductController::class, 'productsTable']);
 
+Route::get('/cart', [ProductController::class, 'cart'])->middleware('auth');
+Route::post('/addProductToCart/{product}', [ProductController::class, 'addProductToCart'])->name('cart.product')->middleware('auth');
+Route::delete('/cartProduct/{cart}',[ProductController::class,'removeCartProduct'])->name('cartProduct.remove');
 Route::post('/search', [FirstController::class, 'search']);

@@ -26,6 +26,17 @@
                                     <p class="product-price"><span>Price:</span> {{ $product->price }}$ </p>
                             </a>
 
+
+                            <div class="mb-1">
+                                <form action="{{ route('cart.product', $product->id) }}" method="post" class="m-0">
+                                    @csrf
+                                    <button type="submit" style="height: 40px;">
+                                        <i class="fas fa-shopping-cart"></i> add to cart
+                                    </button>
+
+                                </form>
+                            </div>
+
                             <div class="d-flex justify-content-center gap-2 align-items-center">
                                 <form action="{{ route('product.remove', $product->id) }}" method="POST" class="m-0">
                                     @csrf

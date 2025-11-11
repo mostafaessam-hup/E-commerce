@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -72,6 +74,11 @@ class ProductController extends Controller
         return back()->with('success', 'Product deleted successfully.');
     }
 
+    public function removeCartProduct(Cart $cart)
+    {
+        $cart->delete();
+        return redirect('/cart')->with('success', 'Product deleted successfully from the cart .');
+    }
 
     public function storeProduct(Request $request)
     {
@@ -105,5 +112,33 @@ class ProductController extends Controller
         $newProduct->save();
 
         return redirect('/')->with('success', 'Product added successfully!');
+    }
+
+    public function cart()
+    {
+        $user_id = Auth::user()->id;
+        $cartProducts = Cart::Where('user_id', $user_id)
+            ->with('product')
+            ->get();
+        return view('Products.cart', ['cartProducts' => $cartProducts]);
+    }
+
+    public function addProductToCart(Product $product)
+    {
+        $user_id = Auth::user()->id;
+        $result = Cart::Where('user_id', $user_id)->where('product_id', $product->id)->first();
+
+        if ($result) {
+            $result->quantity += 1;
+            $result->save();
+        } else {
+            $newCart = new Cart();
+            $newCart->product_id = $product->id;
+            $newCart->user_id = $user_id;
+            $newCart->quantity = 1;
+            $newCart->save();
+        }
+
+        return redirect('/cart');
     }
 }
