@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderDetails;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +34,11 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return view('Products.productsTable', ['products' => $products]);
+    }
+
+    public function addProductImages(Product $product)
+    {
+        return view('Products.addProductImages', ['product', $product]);
     }
 
     public function updateProduct(Product $product, Request $request)
@@ -121,6 +128,43 @@ class ProductController extends Controller
             ->with('product')
             ->get();
         return view('Products.cart', ['cartProducts' => $cartProducts]);
+    }
+
+
+    public function completedOrder()
+    {
+        $user_id = Auth::user()->id;
+        $cartProducts = Cart::Where('user_id', $user_id)
+            ->with('product')
+            ->get();
+        return view('Products.completedOrder', ['cartProducts' => $cartProducts]);
+    }
+
+    public function storeOrder(Request $request)
+    {
+        $user_id = Auth::user()->id;
+
+        $newOrder = new Order();
+        $newOrder->name = $request->name;
+        $newOrder->email = $request->email;
+        $newOrder->phone = $request->phone;
+        $newOrder->address = $request->address;
+        $newOrder->user_id = $user_id;
+        $newOrder->save();
+
+        $cartProducts = Cart::Where('user_id', $user_id)
+            ->with('product')
+            ->get();
+        foreach ($cartProducts as $item) {
+            $newOrderDetail = new OrderDetails();
+            $newOrderDetail->product_id = $item->product_id;
+            $newOrderDetail->order_id = $newOrder->id;
+            $newOrderDetail->quantity = $item->quantity;
+            $newOrderDetail->price = $item->product->price;
+            $newOrderDetail->save();
+        }
+        Cart::Where('user_id', $user_id)->delete();
+        return view('Products.completedOrder', ['cartProducts' => $cartProducts]);
     }
 
     public function addProductToCart(Product $product)

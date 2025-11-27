@@ -15,7 +15,7 @@
 @section('content')
     <div class="container mt-5 mb-5">
 
-        <a href="/addProduct" class="btn btn-primary d-flex align-items-center justify-content-center"
+        <a href="/addProduct" class="btn btn-success d-flex align-items-center justify-content-center"
             style="height: 40px; width:150px">
             <i class="fas fa-plus"></i>
             اضافه منتج جديد
@@ -49,11 +49,19 @@
                                 </form>
 
                                 <a href="/editProduct/{{ $product->id }}"
-                                    class="btn btn-primary d-flex align-items-center justify-content-center"
+                                    class="btn btn-primary d-flex align-items-center justify-content-center ml-1"
                                     style="height: 40px;">
                                     <i class="fas fa-pen"></i>
                                     تعديل
                                 </a>
+
+                                <a href="{{route('product.images.add',$product->id)  }}"
+                                    class="btn btn-secondary d-flex align-items-center justify-content-center ml-1"
+                                    style="height: 40px;">
+                                    <i class="fas fa-image"></i>
+                                    اضافه صور ال المنتج
+                                </a>
+
                             </div>
                         </td>
 

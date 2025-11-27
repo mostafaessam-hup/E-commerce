@@ -56,8 +56,13 @@ Route::delete('/product/{product}', [ProductController::class, 'removeProduct'])
 Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->middleware('auth');
 
 Route::get('/productsTable', [ProductController::class, 'productsTable']);
+Route::get('/addProductImages/{product}', [ProductController::class, 'addProductImages'])->name('product.images.add');
 
 Route::get('/cart', [ProductController::class, 'cart'])->middleware('auth');
 Route::post('/addProductToCart/{product}', [ProductController::class, 'addProductToCart'])->name('cart.product')->middleware('auth');
-Route::delete('/cartProduct/{cart}',[ProductController::class,'removeCartProduct'])->name('cartProduct.remove');
+Route::delete('/cartProduct/{cart}', [ProductController::class, 'removeCartProduct'])->name('cartProduct.remove');
+Route::get('/completedOrder', [ProductController::class, 'completedOrder']);
+Route::post('/storeOrder', [ProductController::class, 'storeOrder'])->name('store.order');
+
+
 Route::post('/search', [FirstController::class, 'search']);
