@@ -73,10 +73,14 @@
                             <a href="completedOrder" class="boxed-btn black">Check Out</a>
                         </div>
                     </div>
-
+                    <div class="cart-buttons">
+                        <a href="previousOrders" class="boxed-btn black">previous orders</a>
+                    </div>
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
     <!-- end cart -->
 @endsection

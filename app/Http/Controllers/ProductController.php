@@ -137,7 +137,18 @@ class ProductController extends Controller
         $cartProducts = Cart::Where('user_id', $user_id)
             ->with('product')
             ->get();
-        return view('Products.completedOrder', ['cartProducts' => $cartProducts]);
+        return view('Products.completedOrder', ['cartProducts' => $cartProducts])->with('success','done');  
+        
+    }
+
+    public function previousOrders()
+    {
+        $user_id = Auth::user()->id;
+        $orders = Order::where('user_id',$user_id)->with('orderDetails')->get();
+        
+
+        return view('Products.previousOrders', ['orders'=>$orders]);
+        
     }
 
     public function storeOrder(Request $request)
@@ -164,7 +175,7 @@ class ProductController extends Controller
             $newOrderDetail->save();
         }
         Cart::Where('user_id', $user_id)->delete();
-        return view('Products.completedOrder', ['cartProducts' => $cartProducts]);
+        return view('Products.completedOrder', ['cartProducts' => $cartProducts])->with('success', 'doneeee');
     }
 
     public function addProductToCart(Product $product)
