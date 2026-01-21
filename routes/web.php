@@ -2,9 +2,10 @@
 
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FirstController;
 use App\Http\Controllers\ProductController;
 
@@ -21,14 +22,9 @@ use App\Http\Controllers\ProductController;
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/', function () {
-
-    // $result = DB::table("categories")->where('id', '>','0')->get();//query builder
-    $result = Category::all();
-    return view('welcome', ['categories' => $result]);
-});
+Route::get('/', [HomeController::class, "mainPage"])->middleware('custom.auth');
 
 Route::get('/category', function () {
     $categories = Category::all();
@@ -62,8 +58,12 @@ Route::get('/cart', [ProductController::class, 'cart'])->middleware('auth');
 Route::post('/addProductToCart/{product}', [ProductController::class, 'addProductToCart'])->name('cart.product')->middleware('auth');
 Route::delete('/cartProduct/{cart}', [ProductController::class, 'removeCartProduct'])->name('cartProduct.remove');
 Route::get('/completedOrder', [ProductController::class, 'completedOrder']);
-Route::get('/previousOrders', [ProductController::class, 'previousOrders']);
+Route::get('/previousOrders', [ProductController::class, 'previousOrders'])->middleware('auth');
 Route::post('/storeOrder', [ProductController::class, 'storeOrder'])->name('store.order');
 
+Route::post('lang/{locale}', function ($locale) {
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('changeLanguage');
 
 Route::post('/search', [FirstController::class, 'search']);

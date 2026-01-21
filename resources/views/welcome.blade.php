@@ -2,6 +2,7 @@
 @extends('Layouts.master')
 
 @section('content')
+{{Session('user')  }}
     <div class="product-section mt-150 mb-150">
         <div class="container">
             <div class="row">

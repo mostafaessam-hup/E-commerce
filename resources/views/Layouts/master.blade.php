@@ -80,6 +80,25 @@
                                 <li><a href="/addProduct">Add Product</a></li>
                                 <li><a href="/reviews">Reviews</a></li>
 
+                                <li>
+                                    <a href="#">
+                                        {{ app()->getLocale() == 'ar' ? 'العربية' : 'English' }}
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <form action="{{ route('changeLanguage', 'en') }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary mt-2">English</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form action="{{ route('changeLanguage', 'ar') }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary mt-2">Arabic</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
 
                                 @guest
                                     @if (Route::has('login'))
@@ -125,8 +144,7 @@
 
                                 <li>
                                     <div class="header-icons">
-                                        <a class="shopping-cart" href="/cart"><i
-                                                class="fas fa-shopping-cart"></i></a>
+                                        <a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"></i></a>
                                         <a class="mobile-hide search-bar-icon" href="#"><i
                                                 class="fas fa-search"></i></a>
                                     </div>
@@ -240,6 +258,7 @@
             {{ session('error') }}
         </div>
     @endif
+    {{ __('string.welcome') }}
 
     @yield('content')
 
