@@ -22,7 +22,16 @@
                                         <img src="{{ url($product->image_path) }}" alt="">
                                     </div>
 
-                                    <h3>{{ $product->name }}</h3>
+                                    {{-- 
+                                        if i have name_ar, name_en columns  (multi languages)  
+                                    @php
+                                        $lang = Session::get('locale');
+                                    @endphp 
+                                        <h3>{{ $product->{'name_'.$lang} }}</h3> 
+                                        if i don't, i have to use if condition
+                                        --}}
+                                    <h3>{{ session('locale') == 'ar' ? $product->name_ar : $product->name }}</h3>
+
                                     <p class="product-price"><span>Price:</span> {{ $product->price }}$ </p>
                             </a>
 
